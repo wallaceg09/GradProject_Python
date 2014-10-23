@@ -1,0 +1,10 @@
+.metadata/*
+__pycache__/*
+Backup/*
+blender_python_reference_2_71_0/*
+GradProjectXMLExport/*
+*.zip
+*.blend
+*.blend1
+*.blend2
+*.mp4
