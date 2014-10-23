@@ -1,0 +1,6 @@
+10-23-2014:
+		Updated MainGameLogic.py [Uncommitted]
+			-Added method "dataTableFromFile" which reads an XML file and returns a 2d array containing the data from a data cube.
+		Added UserInput.py [Uncommitted]
+			-Added source file
+			-Adds Python-level functionality to the project.

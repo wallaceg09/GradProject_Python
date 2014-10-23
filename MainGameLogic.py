@@ -35,8 +35,10 @@ def main(controller):
 	#printSceneObjects(scene)
 
 	tmpPath = "C:\\Users\\Glen\\Dropbox\\GradProject\\randomCube.xml" #TODO: Change this to relative path
+	tableXMLPath = "C:\\Users\\Glen\\Dropbox\\GradProject\\dataTable.xml"
 
-	dataCubeFromFile(tmpPath, hidObjects['Cuboid'], cuboidText, testDataCubePositioner, scene)
+	#dataCubeFromFile(tmpPath, hidObjects['Cuboid'], cuboidText, testDataCubePositioner, scene)
+	dataTableFromFile(tableXMLPath);
 
 	#spawnDataCube(2, 2, 2, scene, hidObjects["Cuboid"], testDataCubePositioner)
 
@@ -125,7 +127,36 @@ def dataCubeFromFile(filepath, cuboidObject, cuboidText, positioner, scene):
 		#print(tmpObject['xFaceData'], tmpObject['zFaceData'], tmpObject['yFaceData'])
 		
 		spawnText(tmpObject, cuboidText, scene)
-                
+
+def dataTableFromFile(filepath):
+	#Open the xml file
+	xmlData = ET.parse(filepath)
+	root = xmlData.getroot()
+	print("tag:", root.tag)
+	print ("attributes", root.attrib)
+	
+	#Get the height of the table from the XML file
+	height = int(root.attrib['height'])
+	
+	#Get the width of the table from the XML file
+	width = int(root.attrib['width'])
+	
+	#Initialize the data table to null-strings
+	dataTable = []
+	for y in range(height):
+		xList = []
+		for x in range(width):
+			xList.append(" ")
+		dataTable.append(xList)
+			
+	#Insert the data from XML into the table
+	for child in root.findall('DataElement'):
+		y = int(child.attrib['y'])
+		x = int(child.attrib['x'])
+		dataTable[y][x] = child.text
+	for t in dataTable:
+		print (t)
+	return dataTable
 def spawnText(cuboidParent, cuboidText, scene):
 	#X texts
 	#print("[DEBUG]Handling x text")
