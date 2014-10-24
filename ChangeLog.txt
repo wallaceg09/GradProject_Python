@@ -1,6 +1,12 @@
 10-23-2014:
-		Updated MainGameLogic.py [Uncommitted]
+		Updated MainGameLogic.py [Committed]
 			-Added method "dataTableFromFile" which reads an XML file and returns a 2d array containing the data from a data cube.
-		Added UserInput.py [Uncommitted]
+		Added UserInput.py [Committed]
 			-Added source file
-			-Adds Python-level functionality to the project.
+			-Adds Python-level functionality to the project. [Partial]
+-------------------
+10-23-2014:
+		Updated CameraLogic.py [Uncommitted]
+			-Added support for camera rotation via mouse movement.
+		Updated UserInput.py [Uncommitted]
+			-Added support for Right-Mouse clicking to prompt user input via console.

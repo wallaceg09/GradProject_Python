@@ -11,7 +11,11 @@ JUST_PRESSED = 1
 HELD = 2
 JUST_RELEASED = 3
 def rightMouseButton(cont):
-	if(bge.logic.mouse.events[RIGHT_MOUSE] == JUST_PRESSED):
+	#print(bge.types.SCA_MouseSensor.getButtonStatus(cont.sensors["RightButton"]))
+	rightButton = cont.sensors["RightButton"]
+	buttonStatus = rightButton.getButtonStatus(bge.events.RIGHTMOUSE)
+	
+	if(buttonStatus == bge.logic.KX_INPUT_JUST_ACTIVATED):
 		print("Right button clicked!")
 		#TODO: Make safe
 		tmp = eval(input("Input something!"))
