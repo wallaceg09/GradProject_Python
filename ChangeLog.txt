@@ -6,7 +6,11 @@
 			-Adds Python-level functionality to the project. [Partial]
 -------------------
 10-23-2014:
-		Updated CameraLogic.py [Uncommitted]
+		Updated CameraLogic.py [Committed]
 			-Added support for camera rotation via mouse movement.
-		Updated UserInput.py [Uncommitted]
+		Updated UserInput.py [Committed]
 			-Added support for Right-Mouse clicking to prompt user input via console.
+-------------------
+10-23-2014
+		Updated MainGameLogic.py [Committed]
+			-Returned the creation of the DataCube to the old method for Legacy purposes.

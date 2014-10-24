@@ -37,8 +37,8 @@ def main(controller):
 	tmpPath = "C:\\Users\\Glen\\Dropbox\\GradProject\\randomCube.xml" #TODO: Change this to relative path
 	tableXMLPath = "C:\\Users\\Glen\\Dropbox\\GradProject\\dataTable.xml"
 
-	#dataCubeFromFile(tmpPath, hidObjects['Cuboid'], cuboidText, testDataCubePositioner, scene)
-	dataTableFromFile(tableXMLPath);
+	dataCubeFromFile(tmpPath, hidObjects['Cuboid'], cuboidText, testDataCubePositioner, scene)
+	#dataTableFromFile(tableXMLPath);
 
 	#spawnDataCube(2, 2, 2, scene, hidObjects["Cuboid"], testDataCubePositioner)
 
