@@ -12,8 +12,11 @@
 			-Added support for Right-Mouse clicking to prompt user input via console.
 -------------------
 10-24-2014:
-		Added Cuboid.py
+		Added Cuboid.py [Committed]
 			-Encapsulates information related to a given cuboid, such as the drawn object, and the given data.
+		Updated MainGameLogic.py[Committed]
+			-Added method "indexDataTable" which indexes each item in the 4th dimension (TODO: Add support for 5+ dimensions).
+			-Added method "dataCubeFromDataTable" which takes a data table and an index to create a data cube.
+10-25-2014
 		Updated MainGameLogic.py
-			-Added method "indexDataTable" which indexes each item in the 4th dimension (TODO: Add support for 5+ dimensions)
-			-Added method "dataCubeFromDataTable" which takes a data table and an index to create a data cube
+			-Updated method "dataCubeFromDataTable" to create a sparse 3d array containing the data cube information.

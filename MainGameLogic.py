@@ -41,7 +41,8 @@ def main(controller):
 	dataTable = dataTableFromFile(tableXMLPath)
 	
 	tableIndex = indexDataTable(dataTable)
-
+	
+	dataCubeFromDataTable(dataTable, tableIndex, 'All', None, None, None, None)
 	#spawnDataCube(2, 2, 2, scene, hidObjects["Cuboid"], testDataCubePositioner)
 
 	#printSceneObjects(scene)
@@ -130,7 +131,51 @@ def dataCubeFromFile(filepath, cuboidObject, cuboidText, positioner, scene):
 		
 		spawnText(tmpObject, cuboidText, scene)
 
-def dataCubeFromDataTable(dataTable, dataTableIndex, cuboidObject, cuboidText, positioner, scene):
+def dataCubeFromDataTable(dataTable, dataTableIndex, dimensionLimit, cuboidObject, cuboidText, positioner, scene):
+	limit = dataTableIndex[dimensionLimit]
+	firstDimensionIndices = secondDimensionIndices = thirdDimensionIndices = []
+	'''TODO: Move this section to "dataTableFromFile"'''
+	#Create an set containing the values of each of the three dimensions.
+	for i in range(limit[0], limit[1]):
+		firstDimVal = dataTable[i][1]
+		secondDimVal = dataTable[i][2]
+		thirdDimVal = dataTable[i][3]
+		if(firstDimensionIndices.count(firstDimVal) == 0):
+			firstDimensionIndices.append(firstDimVal)
+		if(secondDimensionIndices.count(secondDimVal) == 0):
+			secondDimensionIndices.append(secondDimVal)
+		if(thirdDimensionIndices.count(thirdDimVal) == 0):
+			thirdDimensionIndices.append(thirdDimVal)
+			
+	'''print("\n[Debug] First Dimension Indices", firstDimensionIndices)
+	print("\n[Debug] Second Dimension Indices", secondDimensionIndices)
+	print("\n[Debug] Third Dimension Indices\n", thirdDimensionIndices)'''
+	
+	#Create a 3d array containing the data of the cube
+	#Array initialized to ' ' for each element
+	cubeTable = []
+	for y in range(len(firstDimensionIndices)):
+		currentRow = []
+		for x in range(len(secondDimensionIndices)):
+			currentCol = []
+			for z in range(len(thirdDimensionIndices)):
+				currentCol.append(' ')
+				pass
+			currentRow.append(currentCol)
+		cubeTable.append(currentRow)
+	
+	#Populate the 3d array with its values
+	for i in  range(limit[0], limit[1]):
+		y = firstDimensionIndices.index(dataTable[i][1])
+		x = secondDimensionIndices.index(dataTable[i][2])
+		z = thirdDimensionIndices.index(dataTable[i][3])
+		value = dataTable[i][4]
+		cubeTable[y][x][z] = value
+	'''print(cubeTable)'''
+	'''End TODO'''
+	
+	#Create data cube
+	
 	pass
 	
 '''
@@ -268,3 +313,33 @@ def colorTest(cuboidObject):
 				vertex = mesh.getVertex(materialIDX, vertexIDX)
 				vertex.setRGBA([random.random(), random.random(), random.random(), 1.0])
 #main()
+
+class DataCube:
+	def __init__(self):
+		pass
+
+class Cuboid:
+	FRONT = 0
+	BACK = 1
+	LEFT = 2
+	RIGHT = 3
+	TOP = 4
+	BOTTOM = 5
+	#TODO: add a way to link this object to a DataCube object
+	def __init__(self, dataCubeParent, scene, positionVector):
+		self.dataCubeParent = dataCubeParent
+		self.scene = scene
+		self.dataValues = (0, 0, 0, 0, 0, 0)
+	
+	'''
+	Sets the value of a given face.
+	'''
+	def setFaceValue(self, face, value):
+		self.dataValues[face] = value
+		pass
+	
+	'''
+	Returns the value associated with a given face.
+	'''
+	def getFaceValue(self, face):
+		return dataValues[face]

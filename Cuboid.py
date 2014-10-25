@@ -1,6 +1,6 @@
 import bge
 
-def class Cuboid:
+class Cuboid:
 	FRONT = 0
 	BACK = 1
 	LEFT = 2
@@ -8,7 +8,8 @@ def class Cuboid:
 	TOP = 4
 	BOTTOM = 5
 	#TODO: add a way to link this object to a DataCube object
-	def __init__(self, scene):
+	def __init__(self, dataCubeParent, scene, positionVector):
+		self.dataCubeParent = dataCubeParent
 		self.scene = scene
 		self.dataValues = (0, 0, 0, 0, 0, 0)
 	
@@ -24,4 +25,3 @@ def class Cuboid:
 	'''
 	def getFaceValue(self, face):
 		return dataValues[face]
-		pass
