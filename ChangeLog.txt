@@ -18,5 +18,7 @@
 			-Added method "indexDataTable" which indexes each item in the 4th dimension (TODO: Add support for 5+ dimensions).
 			-Added method "dataCubeFromDataTable" which takes a data table and an index to create a data cube.
 10-25-2014
-		Updated MainGameLogic.py
+		Updated MainGameLogic.py [Committed]
 			-Updated method "dataCubeFromDataTable" to create a sparse 3d array containing the data cube information.
+		Updated MainGameLogic.py
+			-Updated method "dataCubeFromDataTable" to spawn a data cube based on the sparse 3d array.

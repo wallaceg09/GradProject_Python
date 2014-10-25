@@ -42,7 +42,7 @@ def main(controller):
 	
 	tableIndex = indexDataTable(dataTable)
 	
-	dataCubeFromDataTable(dataTable, tableIndex, 'All', None, None, None, None)
+	dataCubeFromDataTable(dataTable, tableIndex, 'All', hidObjects['Cuboid'], cuboidText, testDataCubePositioner, scene)
 	#spawnDataCube(2, 2, 2, scene, hidObjects["Cuboid"], testDataCubePositioner)
 
 	#printSceneObjects(scene)
@@ -131,9 +131,12 @@ def dataCubeFromFile(filepath, cuboidObject, cuboidText, positioner, scene):
 		
 		spawnText(tmpObject, cuboidText, scene)
 
+#TODO: Refactor to clean this up. Far too messy
 def dataCubeFromDataTable(dataTable, dataTableIndex, dimensionLimit, cuboidObject, cuboidText, positioner, scene):
 	limit = dataTableIndex[dimensionLimit]
-	firstDimensionIndices = secondDimensionIndices = thirdDimensionIndices = []
+	firstDimensionIndices = []
+	secondDimensionIndices = []
+	thirdDimensionIndices = []
 	'''TODO: Move this section to "dataTableFromFile"'''
 	#Create an set containing the values of each of the three dimensions.
 	for i in range(limit[0], limit[1]):
@@ -153,6 +156,7 @@ def dataCubeFromDataTable(dataTable, dataTableIndex, dimensionLimit, cuboidObjec
 	
 	#Create a 3d array containing the data of the cube
 	#Array initialized to ' ' for each element
+	print("[DEBUG] Creating 3d array")
 	cubeTable = []
 	for y in range(len(firstDimensionIndices)):
 		currentRow = []
@@ -160,11 +164,13 @@ def dataCubeFromDataTable(dataTable, dataTableIndex, dimensionLimit, cuboidObjec
 			currentCol = []
 			for z in range(len(thirdDimensionIndices)):
 				currentCol.append(' ')
+				print(y, x, z)
 				pass
 			currentRow.append(currentCol)
 		cubeTable.append(currentRow)
 	
 	#Populate the 3d array with its values
+	print("[DEBUG] Populating 3d array")
 	for i in  range(limit[0], limit[1]):
 		y = firstDimensionIndices.index(dataTable[i][1])
 		x = secondDimensionIndices.index(dataTable[i][2])
@@ -176,8 +182,35 @@ def dataCubeFromDataTable(dataTable, dataTableIndex, dimensionLimit, cuboidObjec
 	
 	#Create data cube
 	
+	yCuboids = len(firstDimensionIndices)
+	xCuboids = len(secondDimensionIndices)
+	zCuboids = len(thirdDimensionIndices)
+	print("[DEBUG] Creating data cube of size", yCuboids, xCuboids, zCuboids)
+	for y in range(yCuboids):
+		for x in range(xCuboids):
+			for z in range(zCuboids):
+				yOffsetVector = getYOffset(y)
+				xOffsetVector = getXOffset(x)
+				zOffsetVector = getZOffset(z)
+				#print(yOffsetVector, xOffsetVector, zOffsetVector)
+				
+				tmpObject = scene.addObject(cuboidObject, positioner, 0)
+				tmpObject.setParent(positioner)
+				newLocalPosition = xOffsetVector + yOffsetVector + zOffsetVector - mathutils.Vector((xCuboids/2.0, yCuboids/2.0, zCuboids/2.0))#Subtracting by this vector *should* ensure that the root node is in the center of the cube.
+				tmpObject.localPosition = newLocalPosition
+				tmpObject.occlusion = True
+				
+				tmpObject['FrontValue'] = cubeTable[y][x][z]
+				tmpObject['BackValue'] = cubeTable[y][-x][-z]
+				tmpObject['LeftValue'] = cubeTable[y][-x][z]
+				tmpObject['RightValue'] = cubeTable[y][x][-z]
+				tmpObject['TopValue'] = cubeTable[y][x][-z]
+				tmpObject['BottomValue'] = cubeTable[-y][x][z]
+				
+				spawnText(tmpObject, cuboidText, scene)
 	pass
-	
+
+
 '''
 Loads a data table from an XML file.
 Returns a two dimensional list of "n" columns containing the data from a "cube()" operations.
@@ -254,7 +287,7 @@ def addText(cuboidParent, cuboidText, displacement, localRotation, axisValueProp
 	tmpText.applyRotation(localRotation, True)
 	textValue = cuboidParent[axisValueProperty]
 	tmpText.text = textValue
-	if int(textValue) > 10:
+	if (textValue is not ' ' and int(textValue) > 10):
 		tmpText.localScale = mathutils.Vector((0.5, 0.5, 0.5))
 	return tmpText
 
@@ -312,12 +345,13 @@ def colorTest(cuboidObject):
 			for vertexIDX in range(numVertices):
 				vertex = mesh.getVertex(materialIDX, vertexIDX)
 				vertex.setRGBA([random.random(), random.random(), random.random(), 1.0])
-#main()
 
+#TODO: Remove this class?
 class DataCube:
 	def __init__(self):
 		pass
 
+#TODO: Remove this class?
 class Cuboid:
 	FRONT = 0
 	BACK = 1
