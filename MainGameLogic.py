@@ -38,7 +38,9 @@ def main(controller):
 	tableXMLPath = "C:\\Users\\Glen\\Dropbox\\GradProject\\dataTable.xml"
 
 	#dataCubeFromFile(tmpPath, hidObjects['Cuboid'], cuboidText, testDataCubePositioner, scene)
-	dataTableFromFile(tableXMLPath);
+	dataTable = dataTableFromFile(tableXMLPath)
+	
+	tableIndex = indexDataTable(dataTable)
 
 	#spawnDataCube(2, 2, 2, scene, hidObjects["Cuboid"], testDataCubePositioner)
 
@@ -128,6 +130,16 @@ def dataCubeFromFile(filepath, cuboidObject, cuboidText, positioner, scene):
 		
 		spawnText(tmpObject, cuboidText, scene)
 
+def dataCubeFromDataTable(dataTable, dataTableIndex, cuboidObject, cuboidText, positioner, scene):
+	pass
+	
+'''
+Loads a data table from an XML file.
+Returns a two dimensional list of "n" columns containing the data from a "cube()" operations.
+output[0] = nth dimension of the cube operation
+output[-2] = first diemsnion of the cube operation
+output[-1] = the value of the cube operation
+'''
 def dataTableFromFile(filepath):
 	#Open the xml file
 	xmlData = ET.parse(filepath)
@@ -157,6 +169,25 @@ def dataTableFromFile(filepath):
 	for t in dataTable:
 		print (t)
 	return dataTable
+	
+'''
+Returns a dict mapping the 4th dimension values to the range values associated with this value.
+This dict will then be used to limit data cubes against the 4th dimension.
+TODO: consider nesting dicts for even higher dimensionality
+'''
+def indexDataTable(dataTable):
+	outputDict = {}
+	currentIndexValue = dataTable[0][0]
+	currentLowerBound = 0
+	for index in range(1, len(dataTable)):
+		nextIndexValue = dataTable[index][0]
+		if nextIndexValue != currentIndexValue:
+			outputDict[currentIndexValue] = (currentLowerBound, index)
+			currentLowerBound = index
+			currentIndexValue = nextIndexValue
+	print(outputDict)
+	return outputDict
+
 def spawnText(cuboidParent, cuboidText, scene):
 	#X texts
 	#print("[DEBUG]Handling x text")
