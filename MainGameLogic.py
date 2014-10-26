@@ -164,7 +164,7 @@ def dataCubeFromDataTable(dataTable, dataTableIndex, dimensionLimit, cuboidObjec
 			currentCol = []
 			for z in range(len(thirdDimensionIndices)):
 				currentCol.append(' ')
-				print(y, x, z)
+				#print(y, x, z)
 				pass
 			currentRow.append(currentCol)
 		cubeTable.append(currentRow)
@@ -244,8 +244,6 @@ def dataTableFromFile(filepath):
 		y = int(child.attrib['y'])
 		x = int(child.attrib['x'])
 		dataTable[y][x] = child.text
-	for t in dataTable:
-		print (t)
 	return dataTable
 	
 '''
