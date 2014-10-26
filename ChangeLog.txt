@@ -22,3 +22,5 @@
 			-Updated method "dataCubeFromDataTable" to create a sparse 3d array containing the data cube information.
 		Updated MainGameLogic.py [Committed]
 			-Updated method "dataCubeFromDataTable" to spawn a data cube based on the sparse 3d array.
+10-26-2014
+		Added support for dimensionality > 3

@@ -22,15 +22,16 @@ def main(controller):
 	print("SpawnTest Begin")
 	owner = controller.owner
 
-	scene = GameLogic.getCurrentScene()
+	owner['scene'] = GameLogic.getCurrentScene()
 	print ('Scenes:', bge.logic.getSceneList())
 
-	objects = scene.objects
-	hidObjects = scene.objectsInactive
+	objects = owner['scene'].objects
+	hidObjects = owner['scene'].objectsInactive
 
-	testDataCubePositioner = hidObjects["DataCubeRoot"]
+	owner['cubePositioner'] = hidObjects["DataCubeRoot"]
 
-	cuboidText = hidObjects["DynamicText"]
+	owner['cuboidObject'] = hidObjects['Cuboid']
+	owner['cuboidText'] = hidObjects["DynamicText"]
 
 	#printSceneObjects(scene)
 
@@ -38,11 +39,11 @@ def main(controller):
 	tableXMLPath = "C:\\Users\\Glen\\Dropbox\\GradProject\\dataTable.xml"
 
 	#dataCubeFromFile(tmpPath, hidObjects['Cuboid'], cuboidText, testDataCubePositioner, scene)
-	dataTable = dataTableFromFile(tableXMLPath)
+	owner['dataTable'] = dataTableFromFile(tableXMLPath)
 	
-	tableIndex = indexDataTable(dataTable)
+	owner['tableIndex'] = indexDataTable(owner['dataTable'])
 	
-	dataCubeFromDataTable(dataTable, tableIndex, 'All', hidObjects['Cuboid'], cuboidText, testDataCubePositioner, scene)
+	owner['dataCube'] = dataCubeFromDataTable(owner['dataTable'], owner['tableIndex'], 'All', owner['cuboidObject'], owner['cuboidText'], owner['cubePositioner'], owner['scene'])
 	#spawnDataCube(2, 2, 2, scene, hidObjects["Cuboid"], testDataCubePositioner)
 
 	#printSceneObjects(scene)
@@ -137,6 +138,8 @@ def dataCubeFromDataTable(dataTable, dataTableIndex, dimensionLimit, cuboidObjec
 	firstDimensionIndices = []
 	secondDimensionIndices = []
 	thirdDimensionIndices = []
+	
+	dataCube = []
 	'''TODO: Move this section to "dataTableFromFile"'''
 	#Create an set containing the values of each of the three dimensions.
 	for i in range(limit[0], limit[1]):
@@ -164,7 +167,7 @@ def dataCubeFromDataTable(dataTable, dataTableIndex, dimensionLimit, cuboidObjec
 			currentCol = []
 			for z in range(len(thirdDimensionIndices)):
 				currentCol.append(' ')
-				print(y, x, z)
+				#print(y, x, z)
 				pass
 			currentRow.append(currentCol)
 		cubeTable.append(currentRow)
@@ -187,7 +190,9 @@ def dataCubeFromDataTable(dataTable, dataTableIndex, dimensionLimit, cuboidObjec
 	zCuboids = len(thirdDimensionIndices)
 	print("[DEBUG] Creating data cube of size", yCuboids, xCuboids, zCuboids)
 	for y in range(yCuboids):
+		currentRow = []
 		for x in range(xCuboids):
+			currentCol = []
 			for z in range(zCuboids):
 				yOffsetVector = getYOffset(y)
 				xOffsetVector = getXOffset(x)
@@ -208,7 +213,11 @@ def dataCubeFromDataTable(dataTable, dataTableIndex, dimensionLimit, cuboidObjec
 				tmpObject['BottomValue'] = cubeTable[-y][x][z]
 				
 				spawnText(tmpObject, cuboidText, scene)
-	pass
+				
+				currentCol.append(tmpObject)
+			currentRow.append(currentCol)
+		dataCube.append(currentRow)
+	return dataCube
 
 
 '''
@@ -248,6 +257,14 @@ def dataTableFromFile(filepath):
 		print (t)
 	return dataTable
 	
+def clearDataCube(dataCube):
+	for y in dataCube:
+		#print ('Y:', y)
+		for x in y:
+			#print('X:', x)
+			for cuboid in x:
+				#print('Cuboid:',cuboid)
+				cuboid.endObject()
 '''
 Returns a dict mapping the 4th dimension values to the range values associated with this value.
 This dict will then be used to limit data cubes against the 4th dimension.

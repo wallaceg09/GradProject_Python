@@ -1,4 +1,5 @@
 import bge
+import MainGameLogic
 
 #Mouse constants
 #FIXME: see if these constants are correct
@@ -16,9 +17,14 @@ def rightMouseButton(cont):
 	buttonStatus = rightButton.getButtonStatus(bge.events.RIGHTMOUSE)
 	
 	if(buttonStatus == bge.logic.KX_INPUT_JUST_ACTIVATED):
+		owner = cont.owner
+		print(owner)
 		print("Right button clicked!")
-		#TODO: Make safe
-		tmp = eval(input("Input something!"))
-		print(tmp)
-def leftMouseButton(cont):
-	print ("Left button clicked!")
+		MainGameLogic.clearDataCube(owner['dataCube'])
+		uInput = input("Input something!")
+		owner['dataCube'] = MainGameLogic.dataCubeFromDataTable(owner['dataTable'], owner['tableIndex'], uInput, owner['cuboidObject'], owner['cuboidText'], owner['cubePositioner'], owner['scene'])
+		#TODO: Make safep
+		#print(tmp)
+		
+#def leftMouseButton(cont):
+#	print ("Left button clicked!")
