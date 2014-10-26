@@ -12,12 +12,16 @@ def rotateText(controller):
 	#owner.localOrientation = mathutils.Vector((-cameraLocal[0][0], -cameraLocal[0][1], -cameraLocal[0][2]))#FIXME: x local seems to also want to rotate in a strange way
 	
 def rotateCamera(cont):
+	print(cont)
 	own = cont.owner
 	
 	mouse = cont.sensors["mouse"]
 	
 	xRot = cont.actuators["xRotation"]
 	zRot = cont.actuators["zRotation"]
+	
+	xRot.useLocalDRot= False
+	zRot.useLocalDRot = False
 	
 	cont.activate(xRot)
 	cont.activate(zRot)
@@ -31,9 +35,11 @@ def rotateCamera(cont):
 	
 	mouse_position = Vector(mouse.position)
 	
-	offset = (mouse_position - center) * -0.002
+	offset = (mouse_position - center) * -0.001
+	print (offset)
 	
+	xRot.dRot = [0, 0,offset.x]
 	zRot.dRot = [offset.y, 0, 0]#might cause problems. Check here if something goes wrong
-	xRot.dRot = [0, offset.x, 0]
+	#xRot.dRot = [offset.y, 0,offset.x]
 	
 	render.setMousePosition(x,y)
