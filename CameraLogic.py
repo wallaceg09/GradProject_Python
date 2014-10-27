@@ -18,6 +18,7 @@ Modified by Glen Wallace
 '''	
 def rotateCamera(cont):
 	#print(cont)
+
 	owner = cont.owner
 	parent = owner.parent
 	
@@ -54,5 +55,6 @@ def rotateCamera(cont):
 	yaw = math.degrees(parentRotation[2]) + x #Check this if anything goes wrong
 	parentRotation[2] = math.radians(yaw)
 	parent.localOrientation = parentRotation.to_matrix()
+
 	
 	render.setMousePosition(int(w),int(h))
