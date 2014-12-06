@@ -36,7 +36,7 @@ def main(controller):
 	#printSceneObjects(scene)
 
 	tmpPath = "C:\\Users\\Glen\\Dropbox\\GradProject\\randomCube.xml" #TODO: Change this to relative path
-	tableXMLPath = "C:\\Users\\Glen\\Dropbox\\GradProject\\dataTable.xml"
+	tableXMLPath = "C:\\Users\\Glen\\Dropbox\\GradProject\\DataTable.xml"
 
 	#dataCubeFromFile(tmpPath, hidObjects['Cuboid'], cuboidText, testDataCubePositioner, scene)
 	owner['dataTable'] = dataTableFromFile(tableXMLPath)
