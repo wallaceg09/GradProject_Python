@@ -46,6 +46,8 @@ def main(controller):
 	owner['dataCube'] = dataCubeFromDataTable(owner['dataTable'], owner['tableIndex'], 'All', owner['cuboidObject'], owner['cuboidText'], owner['cubePositioner'], owner['scene'])
 	#spawnDataCube(2, 2, 2, scene, hidObjects["Cuboid"], testDataCubePositioner)
 
+	'''for y in range(0, len(owner['dataCube'])):
+		toggleVisible(owner['dataCube'][y][0][0])'''
 	#printSceneObjects(scene)
 	print("SpawnTest End")
 #Deprecated...
@@ -152,6 +154,9 @@ def dataCubeFromDataTable(dataTable, dataTableIndex, dimensionLimit, cuboidObjec
 			secondDimensionIndices.append(secondDimVal)
 		if(thirdDimensionIndices.count(thirdDimVal) == 0):
 			thirdDimensionIndices.append(thirdDimVal)
+	print("UniqueY: ", len(firstDimensionIndices))
+	print("UniqueX: ", len(secondDimensionIndices))
+	print("UniqueZ: ", len(thirdDimensionIndices))
 			
 	'''print("\n[Debug] First Dimension Indices", firstDimensionIndices)
 	print("\n[Debug] Second Dimension Indices", secondDimensionIndices)
@@ -306,6 +311,11 @@ def addText(cuboidParent, cuboidText, displacement, localRotation, axisValueProp
 		tmpText.localScale = mathutils.Vector((0.5, 0.5, 0.5))
 	return tmpText
 
+def toggleVisible(blenderObject):
+	blenderObject.visible = not blenderObject.visible
+	for child in blenderObject.childrenRecursive:
+		child.visible = not child.visible
+		
 '''
 Returns the x offest needed to place a cuboid in the world space
 Inputs
